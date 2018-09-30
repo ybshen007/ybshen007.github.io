@@ -5,6 +5,7 @@ subtitle:   "SeqGAN介绍"
 date:       2018-05-15
 author:     "Shi Lou"
 catalog: true
+categories: Deep Learning
 tags:
     - SeqGAN
     - GAN

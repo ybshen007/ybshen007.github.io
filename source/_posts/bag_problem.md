@@ -5,6 +5,7 @@ subtitle:   "0-1背包问题、完全背包问题"
 date:       2018-09-24
 author:     "ShiLou"
 catalog: true
+categories: Algorithm
 tags:
     - 背包问题
     - dp

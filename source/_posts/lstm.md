@@ -5,6 +5,7 @@ subtitle:   "RNN, LSTM介绍与实现"
 date:       2018-07-07
 author:     "Shi Lou"
 catalog: true
+categories: Deep Learning
 tags:
     - RNN
     - LSTM
