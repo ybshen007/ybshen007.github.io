@@ -1822,7 +1822,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffffec;
+  background: #99d193;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2663,7 +2663,7 @@ hr {
   display: block;
   overflow: hidden;
   margin: 0 auto;
-  width: 75%;
+  width: 90%;
 }
 @media (max-width: 767px) {
   .logo-line-before,
@@ -2766,7 +2766,7 @@ hr {
   display: none;
 }
 .posts-expand .post {
-  margin-top: 120px;
+  margin-top: 45px;
 }
 .posts-expand .post:first-child {
   margin-top: 0;
@@ -2904,21 +2904,23 @@ hr {
     text-align: center;
   }
 }
-body {
-  background-image: url("/images/background.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-}
-.main-inner {
+.post {
   margin-top: 60px;
-  padding: 60px 60px 60px 60px;
-  background: #fff;
-  min-height: 500px;
+  margin-bottom: 60px;
+  padding: 25px;
+  -webkit-box-shadow: 0 0 5px rgba(202,203,203,0.5);
+  -moz-box-shadow: 0 0 5px rgba(202,203,204,0.5);
 }
-.header {
-  background: rgba(255,255,255,0);
-}
-.footer {
-  background: rgba(255,255,255,0);
+.site-author-image {
+  display: block;
+  margin: 0 auto;
+  padding: 2px;
+  max-width: 96px;
+  height: auto;
+  border: 2px solid #333;
+/* 头像圆形 */
+  border-radius: 80px;
+  -webkit-border-radius: 80px;
+  -moz-border-radius: 80px;
+  box-shadow: inset 0 -1px 0 #333 sf;
 }
