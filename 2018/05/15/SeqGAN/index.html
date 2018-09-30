@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SeqGAN,GAN,RL," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="山丘" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="SeqGAN的介绍、作用及训练过程。">
+<meta name="keywords" content="SeqGAN,GAN,RL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SeqGAN">
+<meta property="og:url" content="http://ybshen007@github.io/2018/05/15/SeqGAN/index.html">
+<meta property="og:site_name" content="山丘">
+<meta property="og:description" content="SeqGAN的介绍、作用及训练过程。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-30T13:55:01.406Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SeqGAN">
+<meta name="twitter:description" content="SeqGAN的介绍、作用及训练过程。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://ybshen007@github.io/2018/05/15/SeqGAN/"/>
+
+
+
+
+
+  <title>SeqGAN | 山丘</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">山丘</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ybshen007@github.io/2018/05/15/SeqGAN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shi Lou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="山丘">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SeqGAN</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T00:00:00+08:00">
+                2018-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">阅读量：
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>SeqGAN的介绍、作用及训练过程。<br><a id="more"></a></p>
+</blockquote>
+<h2 id="GAN介绍"><a href="#GAN介绍" class="headerlink" title="GAN介绍"></a>GAN介绍</h2><p>GAN$^{[1]}$的本质是最小化生成样本分布和真实数据分布之间的差距。实现思路是交替地训练两个网络$Generator$、$Discriminator$，其中$Gen$要生成尽可能真实的样本，目标是迷惑$Dis$，使得$Dis$难以判别该样本是来自real data还是synthesized data；$Dis$的目标则显然是最大化判别样本真实与否的能力。 </p>
+<h2 id="GAN训练过程"><a href="#GAN训练过程" class="headerlink" title="GAN训练过程"></a>GAN训练过程</h2><p>令$x$表示real data(可以看成一张真实的图片)，$z$表示随机噪声，$D(\cdot)$表示$Discriminator$，$G(\cdot)$表示$Generator$，则$G(z)$即表示生成的假样本synthesized data(可以看成是一张生成的假图)。 </p>
+<p>GAN的目标对$D(\cdot)$而言，是最大化$D(x)$，最小化$D(G(z))$；对$G(\cdot)$而言，要最大化$D(G(z))$。以上的过程可以用一个数学公式统一表达： </p>
+<p>$$arg\underset{G}{Min}\underset{D}{Max}V(G,D)=\mathbb E_{x～P_{real}(x)} \cdot logD(x) + \mathbb E_{z～P_{z}(z)} \cdot log[1-D(G(z))] \tag{1}$$</p>
+<p>其中$\underset{D}{max}V(G,D)$表示$V(G,D)$最大时$D$的取值。<br>训练时首先固定$G$，优化$D$。$V(G,D)$对$D$求导，可得最优的$D$为<br>$$D_G^\ast=\frac{P_{real}(x)}{P_{real}(x)+P_{g}(x)}\tag{2}$$<br>证明:<br>对于连续空间，期望$\mathbb E$的计算方法是求积分，因此有<br>$$\begin{eqnarray}<br>V(G,D)&amp;=&amp;\int_x{P_{real}(x)logD(x){\rm d}x} +\int_z{P_{z}(z)log[1-D(G(z))]{\rm d}z} \tag{3}\\<br>      &amp;=&amp;\int_x{P_{real}(x)logD(x)+P_{g}(x)log[1-D(x)]{\rm d}x} \tag{3})<br>\end{eqnarray}$$</p>
+<p>将其积分符号内的部分对$D$求导，并使其为$0$。<br>$$\frac{dV(G,D)}{dD}=\frac{P_{data}(x)}{D(x)}-\frac{P_g(x)}{1-D(x)}=0\tag{4}$$<br>即得式$(2)$，将其带入式$(3)$得<br>$$\begin{eqnarray}<br>V(G,D^*)&amp;=&amp;-log(4)+KL(P_{data}||\frac{P_{data}+P_{g}}{2})+KL(P_{g}||\frac{P_{data}+P_{g}}{2}) \tag{5}\\<br>&amp;=&amp;-log(4)+2JSD(P_{data}||P_{g}) \tag{5}<br>\end{eqnarray}$$<br>其中$KL(\cdot)$，$JSD(\cdot)$分别表示<a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence" target="_blank" rel="noopener">$KL$散度</a>和<a href="https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence" target="_blank" rel="noopener">$JS$散度</a>，关于熵跟$KL$散度的关系，也可以点<a href="https://www.zhihu.com/question/41252833" target="_blank" rel="noopener">这里$^{[2]}$</a>。 </p>
+<p>GAN的训练过程可以用下图表示<br>$$\color{red}{\rm{IMAGE}}$$<br>其中黑线表示真实数据分布，绿线表示生成数据分布，蓝线为$Dis$，对于蓝线而言，纵坐标可以表示$Dis$判别为真的概率。图a中是初始化的$Dis$；图b开始训练$Dis$，逐渐能开始识别出real data和synthesized data(分别给出概率为1和0)；图c开始训练$Gen$，生成的样本分布(绿线)开始向真实分布靠拢；图d是最终训练完成的理想状态，生成样本分布和真实样本分布完全重合，$Dis$的判断结果总是0.5，即无法分辨出样本的真假。 </p>
+<h2 id="SeqGAN"><a href="#SeqGAN" class="headerlink" title="SeqGAN"></a>SeqGAN</h2><h3 id="Why-SeqGAN？"><a href="#Why-SeqGAN？" class="headerlink" title="Why SeqGAN？"></a>Why SeqGAN？</h3><p>为什么要引入SeqGAN呢？因为传统的GAN只能解决数据空间连续分布的问题，例如图像的生成问题。图像在计算机中是以二维矩阵的模式存储的，对一张1024*1024的黑白图片而言，就可以用1024*1024个Pixel来表示。如果图片是彩色对，只需再引入一个维度来表示RGB通道。但无论怎样，每个Pixel都是实数空间上可微的，即对某个Pixel进行一个细小的变化${\rm d}Pixel$，在原始图像上就可以表现出该像素点颜色加深/变浅之类的变化。GAN也跟传统的networks一样，使用了back propagation技术，通过对权重矩阵进行一个细微的变化来影响产生图片的质量。由于Pixel连续分布的性质，使得weight matrix的细微变化是有意义的，且能产生作用。 </p>
+<p>而对于离散分布的数据而言，以上的过程就没有意义了。如果我们假设Pixel的分布不再是连续的，而是离散的整数值。比如Pixel=0表示红色，Pixel=1表示黄色，Pixel=2表示蓝色。现在对于图片中的某个像素点而言，它可能原始值是Pixel=0，即表示一个红色的像素点。经过一轮forward propagation和back propagation后，图片的weight matrix发生了一些改变，最终结果是这个Pixel值变成了1.1。问题是，这个1.1表示什么呢？在连续空间上，它可能表示比红色深一点点，或者浅一点点，无论如何，它总是有意义的。但是在离散空间中，它就失去了意义。 </p>
+<p>再来看文本的例子，文字就是典型的离散数据，尽管有word embedding技术，给人感觉上word变成了连续的值，但事实上word在空间上的分布依然是离散的。比如“中国”的embedding是(1.1, 1.2, 1.3, …)，假设它的第一个维度变成了1.2，在word embedding空间上很可能就找不到对应的点了，即使有，它表示的含义跟“中国”也是天差地别，而非之前像素渐变的过程。 </p>
+<p>那如果硬套GAN到文本生成的任务会发生什么呢？首先来看一下整个过程： </p>
+<p>Gen输出softmax之后的结果，即对下一个词在整个词表上的概率预测，sampling一个概率最大的词，重复上述过程直到生成一个句子。Dis对该句子进行判断并优化Gen，优化的方式是通过最小化Dis的loss，然后反传回更新后的参数。问题是梯度在反传时遇到sampling这个环节就中断了（微小的变化并不能影响Sampling的结果）。那有人会说，如果不进行sampling，直接把word distribution传给$Dis$不就好了吗？这样也是不行的，这样对于$Dis$来说，他看到的real data本质上是one hot的形式，而synthesized data则是实数向量的形式，那就$Dis$很容易就判断one hot形式的是真，实数向量形式的是假，而不能真正意义上区分出real data和synthesized data。（如果这里使用了word embedding的技术，可以解决问题。）李宏毅教授在他的课程中也对这个问题作出了一些解释，他的课讲得非常好，可以看<a href="https://www.youtube.com/watch?v=pbQ4qe8EwLo" target="_blank" rel="noopener">这里$^4$</a>。</p>
+<h3 id="SeqGAN是怎么做的？"><a href="#SeqGAN是怎么做的？" class="headerlink" title="SeqGAN是怎么做的？"></a>SeqGAN是怎么做的？</h3><p>跟普通的GAN相比，SeqGAN引入了强化学习的Policy Network。<br>待续</p>
+<h2 id="REFERENCE"><a href="#REFERENCE" class="headerlink" title="REFERENCE"></a>REFERENCE</h2><ol>
+<li><a href="https://arxiv.org/abs/1406.2661" target="_blank" rel="noopener">Generative Adversarial Networks</a></li>
+<li><a href="https://www.zhihu.com/question/41252833" target="_blank" rel="noopener">熵和交叉熵</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/29168803" target="_blank" rel="noopener">SeqGAN介绍</a></li>
+<li><a href="http://speech.ee.ntu.edu.tw/~tlkagk/courses_MLDS18.html" target="_blank" rel="noopener">李宏毅老师的homepage</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SeqGAN/" rel="tag"> <i class="fa fa-tag"></i> SeqGAN</a>
+          
+            <a href="/tags/GAN/" rel="tag"> <i class="fa fa-tag"></i> GAN</a>
+          
+            <a href="/tags/RL/" rel="tag"> <i class="fa fa-tag"></i> RL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/07/lstm/" rel="prev" title="RNN, LSTM记录">
+                RNN, LSTM记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDA1NS8xNjU4Mg=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/photo.jpg"
+                alt="Shi Lou" />
+            
+              <p class="site-author-name" itemprop="name">Shi Lou</p>
+              <p class="site-description motion-element" itemprop="description">无知地索求，羞耻于求救。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ybshen007" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:ybshen33@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GAN介绍"><span class="nav-number">1.</span> <span class="nav-text">GAN介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GAN训练过程"><span class="nav-number">2.</span> <span class="nav-text">GAN训练过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SeqGAN"><span class="nav-number">3.</span> <span class="nav-text">SeqGAN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-SeqGAN？"><span class="nav-number">3.1.</span> <span class="nav-text">Why SeqGAN？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SeqGAN是怎么做的？"><span class="nav-number">3.2.</span> <span class="nav-text">SeqGAN是怎么做的？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REFERENCE"><span class="nav-number">4.</span> <span class="nav-text">REFERENCE</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shi Lou</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">6k</span>
+  
+</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
