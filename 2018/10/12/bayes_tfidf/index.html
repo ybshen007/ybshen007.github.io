@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://ybshen007@github.io/images/chi.jpg">
 <meta property="og:image" content="http://ybshen007@github.io/images/presicion.jpg">
 <meta property="og:image" content="http://ybshen007@github.io/images/tfidf.jpg">
-<meta property="og:updated_time" content="2018-10-12T14:38:18.609Z">
+<meta property="og:updated_time" content="2018-10-12T15:16:53.307Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于朴素贝叶斯的短文本分类">
 <meta name="twitter:description" content="朴素贝叶斯介绍，以及如何将它用在文本分类上。进一步地，如何引入卡方及tf-idf进行特征选择。">
@@ -429,7 +429,7 @@
 <h3 id="通过tfidf作为贝叶斯分类的特征"><a href="#通过tfidf作为贝叶斯分类的特征" class="headerlink" title="通过tfidf作为贝叶斯分类的特征"></a>通过tfidf作为贝叶斯分类的特征</h3><p>早前贝叶斯分类的权重是通过词袋计算出来的，即指定类别下各单词出现的频率。</p>
 <p>对于训练集中的每条样本，可以计算得到该样本中个单词的tfidf值，然后累加到总的类别-tfidf矩阵中的对应位置。矩阵维度为(类目数，词表大小)。</p>
 <p>最后对类别-tfidf矩阵进行归一化后，得到贝叶斯分类器的权重矩阵。最后的测试结果准确率为0.7533，和单纯使用bayes效果差不多。</p>
-<p>本文涉及的所有代码保存在<a href="">Github</a>上。</p>
+<p>本文涉及的所有代码保存在<a href="https://github.com/ybshen007/classification" target="_blank" rel="noopener">Github</a>上。</p>
 
       
     </div>
