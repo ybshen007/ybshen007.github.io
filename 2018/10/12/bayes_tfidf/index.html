@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="SeqGAN,GAN,RL," />
+  <meta name="keywords" content="朴素贝叶斯,ML,文本分类,特征工程," />
 
 
 
@@ -81,18 +81,24 @@
 
 
 
-<meta name="description" content="SeqGAN的介绍、作用及训练过程。">
-<meta name="keywords" content="SeqGAN,GAN,RL">
+<meta name="description" content="朴素贝叶斯介绍，以及如何将它用在文本分类上。进一步地，如何引入卡方及tf-idf进行特征选择。">
+<meta name="keywords" content="朴素贝叶斯,ML,文本分类,特征工程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SeqGAN">
-<meta property="og:url" content="http://ybshen007@github.io/2018/05/15/SeqGAN/index.html">
+<meta property="og:title" content="基于朴素贝叶斯的短文本分类">
+<meta property="og:url" content="http://ybshen007@github.io/2018/10/12/bayes_tfidf/index.html">
 <meta property="og:site_name" content="山丘">
-<meta property="og:description" content="SeqGAN的介绍、作用及训练过程。">
+<meta property="og:description" content="朴素贝叶斯介绍，以及如何将它用在文本分类上。进一步地，如何引入卡方及tf-idf进行特征选择。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-30T13:55:01.406Z">
+<meta property="og:image" content="http://ybshen007@github.io/images/data.jpg">
+<meta property="og:image" content="http://ybshen007@github.io/images/matrix.jpg">
+<meta property="og:image" content="http://ybshen007@github.io/images/chi.jpg">
+<meta property="og:image" content="http://ybshen007@github.io/images/presicion.jpg">
+<meta property="og:image" content="http://ybshen007@github.io/images/tfidf.jpg">
+<meta property="og:updated_time" content="2018-10-12T14:38:18.609Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SeqGAN">
-<meta name="twitter:description" content="SeqGAN的介绍、作用及训练过程。">
+<meta name="twitter:title" content="基于朴素贝叶斯的短文本分类">
+<meta name="twitter:description" content="朴素贝叶斯介绍，以及如何将它用在文本分类上。进一步地，如何引入卡方及tf-idf进行特征选择。">
+<meta name="twitter:image" content="http://ybshen007@github.io/images/data.jpg">
 
 
 
@@ -122,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://ybshen007@github.io/2018/05/15/SeqGAN/"/>
+  <link rel="canonical" href="http://ybshen007@github.io/2018/10/12/bayes_tfidf/"/>
 
 
 
 
 
-  <title>SeqGAN | 山丘</title>
+  <title>基于朴素贝叶斯的短文本分类 | 山丘</title>
   
 
 
@@ -255,7 +261,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://ybshen007@github.io/2018/05/15/SeqGAN/">
+    <link itemprop="mainEntityOfPage" href="http://ybshen007@github.io/2018/10/12/bayes_tfidf/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shi Lou">
@@ -272,7 +278,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SeqGAN</h1>
+          <h1 class="post-title" itemprop="name headline">基于朴素贝叶斯的短文本分类</h1>
         
 
         <div class="post-meta">
@@ -284,8 +290,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T00:00:00+08:00">
-                2018-05-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-12T00:00:00+08:00">
+                2018-10-12
               </time>
             
 
@@ -307,8 +313,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
-                    <span itemprop="name">Deep Learning</span>
+                  <a href="/categories/ML/" itemprop="url" rel="index">
+                    <span itemprop="name">ML</span>
                   </a>
                 </span>
 
@@ -343,7 +349,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.6k
+                  2k
                 </span>
               
 
@@ -359,7 +365,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  6
+                  7
                 </span>
               
             </div>
@@ -381,27 +387,49 @@
 
       
         <blockquote>
-<p>SeqGAN的介绍、作用及训练过程。<br><a id="more"></a></p>
+<p>朴素贝叶斯介绍，以及如何将它用在文本分类上。进一步地，如何引入卡方及tf-idf进行特征选择。<br><a id="more"></a></p>
 </blockquote>
-<h2 id="GAN介绍"><a href="#GAN介绍" class="headerlink" title="GAN介绍"></a>GAN介绍</h2><p>GAN$^{[1]}$的本质是最小化生成样本分布和真实数据分布之间的差距。实现思路是交替地训练两个网络$Generator$、$Discriminator$，其中$Gen$要生成尽可能真实的样本，目标是迷惑$Dis$，使得$Dis$难以判别该样本是来自real data还是synthesized data；$Dis$的目标则显然是最大化判别样本真实与否的能力。 </p>
-<h2 id="GAN训练过程"><a href="#GAN训练过程" class="headerlink" title="GAN训练过程"></a>GAN训练过程</h2><p>令$x$表示real data(可以看成一张真实的图片)，$z$表示随机噪声，$D(\cdot)$表示$Discriminator$，$G(\cdot)$表示$Generator$，则$G(z)$即表示生成的假样本synthesized data(可以看成是一张生成的假图)。 </p>
-<p>GAN的目标对$D(\cdot)$而言，是最大化$D(x)$，最小化$D(G(z))$；对$G(\cdot)$而言，要最大化$D(G(z))$。以上的过程可以用一个数学公式统一表达： </p>
-<p>$$arg\underset{G}{Min}\underset{D}{Max}V(G,D)=\mathbb E_{x～P_{real}(x)} \cdot logD(x) + \mathbb E_{z～P_{z}(z)} \cdot log[1-D(G(z))] \tag{1}$$</p>
-<p>其中$\underset{D}{max}V(G,D)$表示$V(G,D)$最大时$D$的取值。<br>训练时首先固定$G$，优化$D$。$V(G,D)$对$D$求导，可得最优的$D$为<br>$$D_G^\ast=\frac{P_{real}(x)}{P_{real}(x)+P_{g}(x)}\tag{2}$$<br>证明:<br>对于连续空间，期望$\mathbb E$的计算方法是求积分，因此有<br>$$\begin{eqnarray}<br>V(G,D)&amp;=&amp;\int_x{P_{real}(x)logD(x){\rm d}x} +\int_z{P_{z}(z)log[1-D(G(z))]{\rm d}z} \tag{3}\\<br>      &amp;=&amp;\int_x{P_{real}(x)logD(x)+P_{g}(x)log[1-D(x)]{\rm d}x} \tag{3})<br>\end{eqnarray}$$</p>
-<p>将其积分符号内的部分对$D$求导，并使其为$0$。<br>$$\frac{dV(G,D)}{dD}=\frac{P_{data}(x)}{D(x)}-\frac{P_g(x)}{1-D(x)}=0\tag{4}$$<br>即得式$(2)$，将其带入式$(3)$得<br>$$\begin{eqnarray}<br>V(G,D^*)&amp;=&amp;-log(4)+KL(P_{data}||\frac{P_{data}+P_{g}}{2})+KL(P_{g}||\frac{P_{data}+P_{g}}{2}) \tag{5}\\<br>&amp;=&amp;-log(4)+2JSD(P_{data}||P_{g}) \tag{5}<br>\end{eqnarray}$$<br>其中$KL(\cdot)$，$JSD(\cdot)$分别表示<a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence" target="_blank" rel="noopener">$KL$散度</a>和<a href="https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence" target="_blank" rel="noopener">$JS$散度</a>，关于熵跟$KL$散度的关系，也可以点<a href="https://www.zhihu.com/question/41252833" target="_blank" rel="noopener">这里$^{[2]}$</a>。 </p>
-<p>GAN的训练过程可以用下图表示<br>$$\color{red}{\rm{IMAGE}}$$<br>其中黑线表示真实数据分布，绿线表示生成数据分布，蓝线为$Dis$，对于蓝线而言，纵坐标可以表示$Dis$判别为真的概率。图a中是初始化的$Dis$；图b开始训练$Dis$，逐渐能开始识别出real data和synthesized data(分别给出概率为1和0)；图c开始训练$Gen$，生成的样本分布(绿线)开始向真实分布靠拢；图d是最终训练完成的理想状态，生成样本分布和真实样本分布完全重合，$Dis$的判断结果总是0.5，即无法分辨出样本的真假。 </p>
-<h2 id="SeqGAN"><a href="#SeqGAN" class="headerlink" title="SeqGAN"></a>SeqGAN</h2><h3 id="Why-SeqGAN？"><a href="#Why-SeqGAN？" class="headerlink" title="Why SeqGAN？"></a>Why SeqGAN？</h3><p>为什么要引入SeqGAN呢？因为传统的GAN只能解决数据空间连续分布的问题，例如图像的生成问题。图像在计算机中是以二维矩阵的模式存储的，对一张1024*1024的黑白图片而言，就可以用1024*1024个Pixel来表示。如果图片是彩色对，只需再引入一个维度来表示RGB通道。但无论怎样，每个Pixel都是实数空间上可微的，即对某个Pixel进行一个细小的变化${\rm d}Pixel$，在原始图像上就可以表现出该像素点颜色加深/变浅之类的变化。GAN也跟传统的networks一样，使用了back propagation技术，通过对权重矩阵进行一个细微的变化来影响产生图片的质量。由于Pixel连续分布的性质，使得weight matrix的细微变化是有意义的，且能产生作用。 </p>
-<p>而对于离散分布的数据而言，以上的过程就没有意义了。如果我们假设Pixel的分布不再是连续的，而是离散的整数值。比如Pixel=0表示红色，Pixel=1表示黄色，Pixel=2表示蓝色。现在对于图片中的某个像素点而言，它可能原始值是Pixel=0，即表示一个红色的像素点。经过一轮forward propagation和back propagation后，图片的weight matrix发生了一些改变，最终结果是这个Pixel值变成了1.1。问题是，这个1.1表示什么呢？在连续空间上，它可能表示比红色深一点点，或者浅一点点，无论如何，它总是有意义的。但是在离散空间中，它就失去了意义。 </p>
-<p>再来看文本的例子，文字就是典型的离散数据，尽管有word embedding技术，给人感觉上word变成了连续的值，但事实上word在空间上的分布依然是离散的。比如“中国”的embedding是(1.1, 1.2, 1.3, …)，假设它的第一个维度变成了1.2，在word embedding空间上很可能就找不到对应的点了，即使有，它表示的含义跟“中国”也是天差地别，而非之前像素渐变的过程。 </p>
-<p>那如果硬套GAN到文本生成的任务会发生什么呢？首先来看一下整个过程： </p>
-<p>Gen输出softmax之后的结果，即对下一个词在整个词表上的概率预测，sampling一个概率最大的词，重复上述过程直到生成一个句子。Dis对该句子进行判断并优化Gen，优化的方式是通过最小化Dis的loss，然后反传回更新后的参数。问题是梯度在反传时遇到sampling这个环节就中断了（微小的变化并不能影响Sampling的结果）。那有人会说，如果不进行sampling，直接把word distribution传给$Dis$不就好了吗？这样也是不行的，这样对于$Dis$来说，他看到的real data本质上是one hot的形式，而synthesized data则是实数向量的形式，那就$Dis$很容易就判断one hot形式的是真，实数向量形式的是假，而不能真正意义上区分出real data和synthesized data。（如果这里使用了word embedding的技术，可以解决问题。）李宏毅教授在他的课程中也对这个问题作出了一些解释，他的课讲得非常好，可以看<a href="https://www.youtube.com/watch?v=pbQ4qe8EwLo" target="_blank" rel="noopener">这里$^4$</a>。</p>
-<h3 id="SeqGAN是怎么做的？"><a href="#SeqGAN是怎么做的？" class="headerlink" title="SeqGAN是怎么做的？"></a>SeqGAN是怎么做的？</h3><p>跟普通的GAN相比，SeqGAN引入了强化学习的Policy Network。<br>待续</p>
-<h2 id="REFERENCE"><a href="#REFERENCE" class="headerlink" title="REFERENCE"></a>REFERENCE</h2><ol>
-<li><a href="https://arxiv.org/abs/1406.2661" target="_blank" rel="noopener">Generative Adversarial Networks</a></li>
-<li><a href="https://www.zhihu.com/question/41252833" target="_blank" rel="noopener">熵和交叉熵</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/29168803" target="_blank" rel="noopener">SeqGAN介绍</a></li>
-<li><a href="http://speech.ee.ntu.edu.tw/~tlkagk/courses_MLDS18.html" target="_blank" rel="noopener">李宏毅老师的homepage</a></li>
-</ol>
+<h1 id="朴素贝叶斯"><a href="#朴素贝叶斯" class="headerlink" title="朴素贝叶斯"></a>朴素贝叶斯</h1><h2 id="贝叶斯定理简介"><a href="#贝叶斯定理简介" class="headerlink" title="贝叶斯定理简介"></a>贝叶斯定理简介</h2><p>关于贝叶斯定理的文章网上已经有很多了，这里只做简单介绍，具体的可以看维基百科上的<a href="https://zh.wikipedia.org/wiki/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86" target="_blank" rel="noopener">定义</a>。</p>
+<p>朴素贝叶斯的核心是<font color="red">特征之间是彼此独立的</font>，即 <strong>朴素(naive)</strong> 的含义。尽管事实上特征之间是有关联的，但朴素贝叶斯的效果通常都不错，因此它得以广泛应用。</p>
+<p>贝叶斯定理的一般定义：<br>假设有特征$(f_1, f_2,…,f_n)$以及类别$(C_1, C_2,…,C_m)$。要求该特征下各类别的取值概率$P(C_i|f_1,f_2,…,f_n)$。则有<br>$$P(C_i|f_1, f_2,…,f_n)=\frac{P(C_i)\cdot P(f_1,f_2,…,f_n|C_i)}{P(f_1,f_2,…,f_n)} \tag{1}$$<br>其中<br>$P(C_i)$是先验概率(prior)，可以根据训练集中类目分布统计得出。<br>$P(C_i|f_1,f_2,…,f_n)$是后验概率(posterior)<br>$P(f_1,f_2,…,f_n|C_i)$是似然(likehood)<br>$P(f_1,f_2,…,f_n)$是标准化常量(evidence)</p>
+<p>公式(1)在实际应用时会有一个问题，$P(f_1,f_2,…,f_n|C_i)$这一项在计算时，当特征空间增大时，计算量会以指数级增加，造成无法计算的问题。比如每个特征有$k$个取值，则最终特征空间大小是$k^n$，这种计算复杂度是无法接受的。</p>
+<p>朴素贝叶斯对此做了一个假设，即特征之间彼此独立。由此可得:<br>$$P(f_1,f_2,…,f_n|C_i) \approx P(f_1|C_i)P(f_2|C_i)…P(f_n|C_i)$$<br>这样计算量就缩小到了$kn$量级。</p>
+<h2 id="朴素贝叶斯分类器"><a href="#朴素贝叶斯分类器" class="headerlink" title="朴素贝叶斯分类器"></a>朴素贝叶斯分类器</h2><p>根据朴素贝叶斯假设，贝叶斯定理可以简化成<br>$$P(C_i|f_1, f_2,…,f_n)=\frac{P(C_i)P(f_1|C_i)P(f_2|C_i)…P(f_n|C_i)}{P(f_1,f_2,…,f_n)} \tag{2}$$<br>则要求正确的分类<br>$$C^\ast=\underset{C_i}{Max}P(C_i|f_1,f_2,…,f_n), i=1,…,m$$<br>对分类器来说，标准化常量项$P(f_1,f_2,…,f_n)$大家都是一样的，因此可以忽略不计，因此最终分类器为:<br>$$C^\ast=\underset{C_i}{Max}P(C_i)P(f_1|C_i)P(f_2|C_i)…P(f_n|C_i), i=1,…,m \tag{3}$$</p>
+<h1 id="短文本分类"><a href="#短文本分类" class="headerlink" title="短文本分类"></a>短文本分类</h1><p>基于朴素贝叶斯，短文本分类任务可以建模成根据词袋组合求解分类概率的问题。其中先验$P(C_i)$可以根据训练集中已有的类目分布获得。$P(f_j|C_i)$则为类目$C_i$下取得单词$f_j$的概率，可以通过计算指定类目下单词分布获得。<br>对于NLPCC2017的新闻标题分类<a href="http://tcci.ccf.org.cn/conference/2017/dldoc/taskgline02.pdf" target="_blank" rel="noopener">任务</a>，其数据分布如下:<br><img src="/images/data.jpg" alt="数据"><br>由于只下载了train/dev数据，因此采用train部分数据来构造贝叶斯分类器，dev部分作为测试集。测试集上的部分混淆矩阵如下:<br><img src="/images/matrix.jpg" alt="matrix"><br>可以看到，presicion跟recall分别为0.767和0.741，整体效果还是不错的。</p>
+<h1 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a>特征工程</h1><p>对于文本分类任务，特征工程通常是指挑选出分类文本中权重更高的词，通过这些词来进行分类。常用的有chi方，互信息法，信息增益法，tf-idf等，这里简单介绍卡方检验和tf-idf方法。</p>
+<h2 id="卡方检验"><a href="#卡方检验" class="headerlink" title="卡方检验"></a>卡方检验</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>卡方检验是一种统计量在零假设成立时近似服从卡方分布的假设检验。即认为观测值跟理论值的差异是由随机误差造成的。<br>对于理论值$E$，有一系列观测值$x_1,x_2,…,x_n$，可得归一化误差<br>$$\sum_i{\frac{(x_i-E)^2}{E}} \tag{4}$$<br>当误差大于一定的阈值时，认为原假设不成立。<br>对于文本分类任务，可以假设<font color="red">词语$w$对分类$C$没有影响</font>。则计算的卡方检验值越大，表明原假设越可能是错误的，即词语$w$对分类$C$有很大的影响。<br><strong>注：这里原假设不设置成词语$w$对分类$C$有影响的原因是，无从知晓理论值$E$，即这么假设会造成无法继续计算的问题。</strong><br>用一个例子说明，现有二分类任务$C={好，坏}$，样本总数为$N$，对词<em>笨蛋</em>计算卡方检验值。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align:center">好</th>
+<th style="text-align:center">坏</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>含“笨蛋”</strong></td>
+<td style="text-align:center">A</td>
+<td style="text-align:center">B</td>
+</tr>
+<tr>
+<td><strong>不含“笨蛋”</strong></td>
+<td style="text-align:center">C</td>
+<td style="text-align:center">D</td>
+</tr>
+</tbody>
+</table>
+<p>对于上述分布，由假设，单词“笨蛋”对类别“好”没有影响。根据大数定理，理论上在总数据集中出现“笨蛋”概率为$\frac {A+B}{N}$，在类目“好”下，产生笨蛋的样本数应该是$(A+C)\frac {A+B}{N}$，即期望$E_{好,笨蛋}$。而事实上出现的数目是$A$。由此可以根据公式(4)计算得$C_{好,笨蛋}$。同理可以计算得到剩下三个值，最终的卡方检验值为:<br>$$\chi^2(好，笨蛋)=C_{好,笨蛋}+C_{好,不含}+C_{坏,笨蛋}+C_{坏,不含}$$<br>带入ABCD，上式可化为：<br>$$\chi^2(word, class)=\frac{N(AD-BC)^2}{(A+C)(A+B)(B+D)(C+D)}$$<br>对所有的词都进行相同操作，逆序排序取topN即前N个对该类目影响最大的词。</p>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>对上述NLPCC2017的短文本分类任务应用卡方检验选取特征值，对于历史类别下，特征选择结果如下：<br><img src="/images/chi.jpg" alt="chi"><br>可以看到，选择结果还是很不错的。</p>
+<p>之后对新闻标题中的词进行筛选，只保留特征选择后的结果进行分类，其中topN中的N分别取50-2000，以50为刻度。presicion变化结果如图：<br><img src="/images/presicion.jpg" alt="presicion"><br>其中最左边是不进行特征选择，可以看到，对于短文本分类任务来说，应用卡方检验进行特征选择的效果并不好。分类器的效果随着N的增大而提高。可能原因是短文本本身信息量就很少，特征稀疏，其每个词已经是一个比较强的特征，进一步筛选后，特征变得更加稀疏，造成了效果下降。</p>
+<h2 id="tf-idf"><a href="#tf-idf" class="headerlink" title="tf-idf"></a>tf-idf</h2><h3 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h3><p>tf-idf是通过统计词在文档中的频率信息来分析词对当前文档的重要程度，和卡方检验一个很大的不同之处在于，tf-idf方法不需要事先知道当前文档的类别。</p>
+<p>tf是指词频，即此表中每个词在当前文档中出现的频率。<br>idf是逆向文件频率，是衡量一个词普遍重要性的指标。假设在所有文档$N$中某个词出现了$n$次，则该词的idf值为$log\frac{N}{n}$，实际计算时为了避免$n$取0，通常对其+1。</p>
+<p>tf-idf即两者相乘。用<a href="https://zh.wikipedia.org/wiki/Tf-idf" target="_blank" rel="noopener">wiki</a>上的例子进一步说明。假如一篇文件的总词语数是100个，而词语“母牛”出现了3次，那么“母牛”一词在该文件中的词频就是3/100=0.03。而计算文件频率（IDF）的方法是以文件集的文件总数，除以出现“母牛”一词的文件数。所以，如果“母牛”一词在1,000份文件出现过，而文件总数是10,000,000份的话，其逆向文件频率就是lg（10,000,000 / 1,000）=4。最后的tf-idf的分数为0.03 * 4=0.12。</p>
+<h3 id="应用-1"><a href="#应用-1" class="headerlink" title="应用"></a>应用</h3><p>还是对前面的任务，进行tf-idf特征选择，各类别top20如下：<br><img src="/images/tfidf.jpg" alt="tfidf"><br>选择的效果也是非常好的。</p>
+<h3 id="通过tfidf作为贝叶斯分类的特征"><a href="#通过tfidf作为贝叶斯分类的特征" class="headerlink" title="通过tfidf作为贝叶斯分类的特征"></a>通过tfidf作为贝叶斯分类的特征</h3><p>早前贝叶斯分类的权重是通过词袋计算出来的，即指定类别下各单词出现的频率。</p>
+<p>对于训练集中的每条样本，可以计算得到该样本中个单词的tfidf值，然后累加到总的类别-tfidf矩阵中的对应位置。矩阵维度为(类目数，词表大小)。</p>
+<p>最后对类别-tfidf矩阵进行归一化后，得到贝叶斯分类器的权重矩阵。最后的测试结果准确率为0.7533，和单纯使用bayes效果差不多。</p>
+<p>本文涉及的所有代码保存在<a href="">Github</a>上。</p>
 
       
     </div>
@@ -419,11 +447,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/SeqGAN/" rel="tag"> <i class="fa fa-tag"></i> SeqGAN</a>
+            <a href="/tags/朴素贝叶斯/" rel="tag"> <i class="fa fa-tag"></i> 朴素贝叶斯</a>
           
-            <a href="/tags/GAN/" rel="tag"> <i class="fa fa-tag"></i> GAN</a>
+            <a href="/tags/ML/" rel="tag"> <i class="fa fa-tag"></i> ML</a>
           
-            <a href="/tags/RL/" rel="tag"> <i class="fa fa-tag"></i> RL</a>
+            <a href="/tags/文本分类/" rel="tag"> <i class="fa fa-tag"></i> 文本分类</a>
+          
+            <a href="/tags/特征工程/" rel="tag"> <i class="fa fa-tag"></i> 特征工程</a>
           
         </div>
       
@@ -436,15 +466,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/09/24/bag_problem/" rel="next" title="背包问题">
+                <i class="fa fa-chevron-left"></i> 背包问题
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/07/07/lstm/" rel="prev" title="RNN, LSTM记录">
-                RNN, LSTM记录 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -608,7 +638,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GAN介绍"><span class="nav-number">1.</span> <span class="nav-text">GAN介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GAN训练过程"><span class="nav-number">2.</span> <span class="nav-text">GAN训练过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SeqGAN"><span class="nav-number">3.</span> <span class="nav-text">SeqGAN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-SeqGAN？"><span class="nav-number">3.1.</span> <span class="nav-text">Why SeqGAN？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SeqGAN是怎么做的？"><span class="nav-number">3.2.</span> <span class="nav-text">SeqGAN是怎么做的？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REFERENCE"><span class="nav-number">4.</span> <span class="nav-text">REFERENCE</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#朴素贝叶斯"><span class="nav-number">1.</span> <span class="nav-text">朴素贝叶斯</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯定理简介"><span class="nav-number">1.1.</span> <span class="nav-text">贝叶斯定理简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#朴素贝叶斯分类器"><span class="nav-number">1.2.</span> <span class="nav-text">朴素贝叶斯分类器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#短文本分类"><span class="nav-number">2.</span> <span class="nav-text">短文本分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#特征工程"><span class="nav-number">3.</span> <span class="nav-text">特征工程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#卡方检验"><span class="nav-number">3.1.</span> <span class="nav-text">卡方检验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">3.1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用"><span class="nav-number">3.1.2.</span> <span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tf-idf"><span class="nav-number">3.2.</span> <span class="nav-text">tf-idf</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过tfidf作为贝叶斯分类的特征"><span class="nav-number">3.2.3.</span> <span class="nav-text">通过tfidf作为贝叶斯分类的特征</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
