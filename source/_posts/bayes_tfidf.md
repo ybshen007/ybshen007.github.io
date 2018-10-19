@@ -104,4 +104,4 @@ tf-idf即两者相乘。用[wiki](https://zh.wikipedia.org/wiki/Tf-idf)上的例
 最后对类别-tfidf矩阵进行归一化后，得到贝叶斯分类器的权重矩阵。最后的测试结果准确率为0.7533，和单纯使用bayes效果差不多。
 
 
-本文涉及的所有代码保存在[Github]()上。
+本文涉及的所有代码保存在[Github](https://github.com/ybshen007/classification)上。
