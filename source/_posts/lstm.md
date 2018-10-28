@@ -54,7 +54,7 @@ LSTM的核心公式为以下五个：
 $f_t=sigmoid(W_{fx}x_t+W_{fh}h_{t-1}+b_f)$
 $i_t=sigmoid(W_{ix}x_t+W_{ih}h_{t-1}+b_i)$
 $o_t=sigmoid(W_{ox}x_t+W_{oh}h_{t-1}+b_o)$
-$c_t=o_t \cdot c_{t-1}+i_t \cdot tanh(W_{cx}x_t+W_{ch}h_{t-1}+b_c)$
+$c_t=f_t \cdot c_{t-1}+i_t \cdot tanh(W_{cx}x_t+W_{ch}h_{t-1}+b_c)$
 $h_t=o_t \cdot tanh(c_t)$
 </center>
 
