@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://ybshen007@github.io/2018/10/28/ubuntu/</loc>
+    
+    <lastmod>2018-10-28T08:14:51.095Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://ybshen007@github.io/2018/05/15/SeqGAN/</loc>
+    
+    <lastmod>2018-10-28T08:08:37.344Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://ybshen007@github.io/2018/10/12/bayes_tfidf/</loc>
     
     <lastmod>2018-10-12T15:16:53.307Z</lastmod>
@@ -19,13 +33,6 @@
     <loc>http://ybshen007@github.io/2018/09/24/bag_problem/</loc>
     
     <lastmod>2018-09-30T13:55:17.414Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://ybshen007@github.io/2018/05/15/SeqGAN/</loc>
-    
-    <lastmod>2018-09-30T13:55:01.406Z</lastmod>
     
   </url>
   
