@@ -313,3 +313,43 @@ source ~/.zshrc
 [配置文件](https://github.com/ybshen007/resources/blob/master/.vimrc)
 
 
+## Tensorflow
+
+```sh
+pip install --ignore-installed --upgrade url
+```
+
+Python 2.7
+
+CPU only:
+https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.4.1-cp27-none-linux_x86_64.whl
+
+GPU support:
+https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.4.1-cp27-none-linux_x86_64.whl
+ 
+
+Python 3.4
+
+CPU only:
+https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.4.1-cp34-cp34m-linux_x86_64.whl　
+
+GPU support:
+https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.4.1-cp34-cp34m-linux_x86_64.whl
+ 
+
+Python 3.5
+
+CPU only:
+https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.4.1-cp35-cp35m-linux_x86_64.whl
+
+GPU support:
+https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.4.1-cp35-cp35m-linux_x86_64.whl
+ 
+
+Python 3.6
+
+CPU only:
+https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.4.1-cp36-cp36m-linux_x86_64.whl　
+
+GPU support:
+https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.4.1-cp36-cp36m-linux_x86_64.whl
