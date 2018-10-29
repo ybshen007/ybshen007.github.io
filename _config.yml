@@ -82,3 +82,9 @@ deploy:
   type: git
   repo:
       github: git@github.com:ybshen007/ybshen007.github.io.git,master
+
+# 自动生成sitemap
+sitemap: 
+  path: sitemap.xml
+baidusitemap:
+  path: baidusitemap.xml
