@@ -91,7 +91,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2018/08/04/5b654b0b9d8ba.png">
 <meta property="og:image" content="https://i.loli.net/2018/08/04/5b655b8e0a24e.png">
-<meta property="og:updated_time" content="2018-09-30T13:54:32.102Z">
+<meta property="og:updated_time" content="2018-10-28T08:35:51.792Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RNN, LSTM记录">
 <meta name="twitter:description" content="RNN, LSTM详细介绍，以及利用tf api和手动实现两种方式复现。">
@@ -406,7 +406,7 @@
 <li>输出门$o$: 控制当前时刻记忆输出多少  </li>
 </ul>
 <p>LSTM的核心公式为以下五个：</p>
-<center><br>$f_t=sigmoid(W_{fx}x_t+W_{fh}h_{t-1}+b_f)$<br>$i_t=sigmoid(W_{ix}x_t+W_{ih}h_{t-1}+b_i)$<br>$o_t=sigmoid(W_{ox}x_t+W_{oh}h_{t-1}+b_o)$<br>$c_t=o_t \cdot c_{t-1}+i_t \cdot tanh(W_{cx}x_t+W_{ch}h_{t-1}+b_c)$<br>$h_t=o_t \cdot tanh(c_t)$<br></center>
+<center><br>$f_t=sigmoid(W_{fx}x_t+W_{fh}h_{t-1}+b_f)$<br>$i_t=sigmoid(W_{ix}x_t+W_{ih}h_{t-1}+b_i)$<br>$o_t=sigmoid(W_{ox}x_t+W_{oh}h_{t-1}+b_o)$<br>$c_t=f_t \cdot c_{t-1}+i_t \cdot tanh(W_{cx}x_t+W_{ch}h_{t-1}+b_c)$<br>$h_t=o_t \cdot tanh(c_t)$<br></center>
 
 <p>三个gate选择$sigmoid(\cdot)$的原因是gate只是负责控制信息<strong>流通率</strong>，本身是不产生额外信息的，$sigmoid(\cdot)$能很好地表现这个性质。额外信息只由自时刻$t$中的输入$(x_t,h_{t-1})$产生。LSTM更详细的工作流程可以看<a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="noopener">这篇$^{[4]}$</a>。  </p>
 <p>同样的，为什么LSTM能够解决BPTT中的gradient exploed/gradient vanish问题，这里也只给出一个直觉上的解释：还是之前那个阅读长句子的例子，之所以读到最后记不住早前的记忆，是因为RNN尝试把所有的内容都记下来。LSTM中的gate控制着信息的流通率，可以看成只尝试去记忆之前关键的信息，这样就减少了记忆的负担，因此能很好地解决长依赖问题。如果更深入地理解BPTT过程，可以看之前提到的RNN BPTT那篇文章。  </p>
@@ -558,7 +558,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -580,7 +580,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -670,7 +670,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">9.9k</span>
+    <span title="Site words total count">13.5k</span>
   
 </div>
 
