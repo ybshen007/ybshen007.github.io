@@ -311,6 +311,11 @@ source ~/.zshrc
 ## vim
 
 [配置文件](https://github.com/ybshen007/resources/blob/master/.vimrc)
+```sh
+vim --version
+```
+如果clipboard选项是关闭的（-），安装vim-gtk。
+之后可以用"+y/p跟外部进行复制粘贴。
 
 
 ## Tensorflow
