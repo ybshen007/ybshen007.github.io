@@ -84,6 +84,8 @@ deploy:
       github: git@github.com:ybshen007/ybshen007.github.io.git,master
 
 # 自动生成sitemap
+urlforgoogle: https://worldbuilder.top/
+
 sitemap: 
   path: sitemap.xml
 baidusitemap:

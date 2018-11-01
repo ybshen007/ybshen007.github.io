@@ -310,7 +310,7 @@ source ~/.zshrc
 
 ## vim
 
-[配置文件](https://github.com/ybshen007/resources/blob/master/.vimrc)
+[配置文件](https://github.com/ybshen007/resources/blob/master/vimrc)
 ```sh
 vim --version
 ```
