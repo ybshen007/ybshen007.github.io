@@ -13,7 +13,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://ybshen007@github.io
+url: https://worldbuilder.top
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -79,10 +79,10 @@ theme: next
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: git
-  repo:
-      github: git@github.com:ybshen007/ybshen007.github.io.git,master
-
+    - type: git
+      repo:
+          github: git@github.com:ybshen007/ybshen007.github.io.git,master
+    - type: baidu_url_submitter   
 # 自动生成sitemap
 urlforgoogle: https://worldbuilder.top/
 
@@ -90,3 +90,9 @@ sitemap:
   path: sitemap.xml
 baidusitemap:
   path: baidusitemap.xml
+
+baidu_url_submit:
+  count: 5 
+  host: https://worldbuilder.top
+  token: qKeFM3rFRBhZKR18
+  path: baidu_urls.txt 
