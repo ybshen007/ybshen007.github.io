@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="面试,ML,概率论,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="山丘" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="记录下2018秋招算法岗的一些面经，以及整理的部分题目。">
+<meta name="keywords" content="面试,ML,概率论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法面试部分题目整理">
+<meta property="og:url" content="https://worldbuilder.top/算法面试/index.html">
+<meta property="og:site_name" content="山丘">
+<meta property="og:description" content="记录下2018秋招算法岗的一些面经，以及整理的部分题目。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-28T08:35:51.793Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法面试部分题目整理">
+<meta name="twitter:description" content="记录下2018秋招算法岗的一些面经，以及整理的部分题目。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://worldbuilder.top/算法面试/">
+
+
+
+
+
+  <title>算法面试部分题目整理 | 山丘</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">山丘</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://worldbuilder.top/算法面试/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shi Lou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="山丘">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">算法面试部分题目整理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-16T00:00:00+08:00">
+                2018-10-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读数：
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.5k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  12
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>记录下2018秋招算法岗的一些面经，以及整理的部分题目。<br><a id="more"></a></p>
+</blockquote>
+<h2 id="机器学习理论"><a href="#机器学习理论" class="headerlink" title="机器学习理论"></a>机器学习理论</h2><h3 id="1-XGBoost和GradientBoost的区别是什么？XGBoost的基分类器只能是树吗？如果基分类器是线性分类器会是怎么样？"><a href="#1-XGBoost和GradientBoost的区别是什么？XGBoost的基分类器只能是树吗？如果基分类器是线性分类器会是怎么样？" class="headerlink" title="1. XGBoost和GradientBoost的区别是什么？XGBoost的基分类器只能是树吗？如果基分类器是线性分类器会是怎么样？"></a>1. XGBoost和GradientBoost的区别是什么？XGBoost的基分类器只能是树吗？如果基分类器是线性分类器会是怎么样？</h3><h2 id="机器学习问答"><a href="#机器学习问答" class="headerlink" title="机器学习问答"></a>机器学习问答</h2><h3 id="1-AdaBoost和GBDT的主要相同点和区别是什么？"><a href="#1-AdaBoost和GBDT的主要相同点和区别是什么？" class="headerlink" title="1. AdaBoost和GBDT的主要相同点和区别是什么？"></a>1. AdaBoost和GBDT的主要相同点和区别是什么？</h3><p>相同点：</p>
+<ol>
+<li>都是加性模型</li>
+<li>每一步训练一个弱学习器（通常是决策树）以弥补前面模型的不足</li>
+</ol>
+<p>不同点：</p>
+<ol>
+<li>AdaBoost中当前学习器的“不足”由样本权重来决定</li>
+<li>GBDT中当前学习器的“不足”由求梯度决定</li>
+<li>GBDT是Adaboost的推广，GBDT可以使用不同的损失函数</li>
+</ol>
+<h3 id="2-为什么我们不能用最小二乘法来解决二元分类问题？换句话说，我们为什么不能用平方误差-MSE-作为逻辑回归的损失函数？"><a href="#2-为什么我们不能用最小二乘法来解决二元分类问题？换句话说，我们为什么不能用平方误差-MSE-作为逻辑回归的损失函数？" class="headerlink" title="2. 为什么我们不能用最小二乘法来解决二元分类问题？换句话说，我们为什么不能用平方误差(MSE)作为逻辑回归的损失函数？"></a>2. 为什么我们不能用最小二乘法来解决二元分类问题？换句话说，我们为什么不能用平方误差(MSE)作为逻辑回归的损失函数？</h3><p>从下面几个方面，我们都可以看出MSE是不适合作为逻辑回归的损失函数的：</p>
+<ol>
+<li>MSE不是accuracy的良性代理函数，具体看<a href="http://fa.bianp.net/blog/2014/surrogate-loss-functions-in-machine-learning/" target="_blank" rel="noopener">这里</a>。</li>
+<li>最大似然估计的角度来说，logloss是最适合二元分类的损失函数</li>
+<li>如果用MSE作为逻辑回归的损失函数，那么这个损失函数本身不是凸函数，而是有很多的局部最优</li>
+<li>如果用MSE作为逻辑回归的损失函数，容易发生梯度消失</li>
+</ol>
+<h3 id="3-如何从流数据中均匀取样？具体来说，数据样本是一个个进入系统，你并不知道数据流何时结束或者数据总个数，在这种情况下，你如何一个流动的数据里随机均匀地选出k个样本？如何证明你的方法是随机均匀的？"><a href="#3-如何从流数据中均匀取样？具体来说，数据样本是一个个进入系统，你并不知道数据流何时结束或者数据总个数，在这种情况下，你如何一个流动的数据里随机均匀地选出k个样本？如何证明你的方法是随机均匀的？" class="headerlink" title="3. 如何从流数据中均匀取样？具体来说，数据样本是一个个进入系统，你并不知道数据流何时结束或者数据总个数，在这种情况下，你如何一个流动的数据里随机均匀地选出k个样本？如何证明你的方法是随机均匀的？"></a>3. 如何从流数据中均匀取样？具体来说，数据样本是一个个进入系统，你并不知道数据流何时结束或者数据总个数，在这种情况下，你如何一个流动的数据里随机均匀地选出k个样本？如何证明你的方法是随机均匀的？</h3><p>这个问题的解法是很著名的蓄水池采样法(reservoir sampling)。</p>
+<p>一般解决方法<br>   先把数据数一遍，得到个数之后，再开始等概率抽取。<br>蓄水池抽样算法<br>   当数据一个个进入系统时，先保留全部前$k$个数据，然后开始读取第$k+1$数据，我们以$1/(k+1)$的概率略过该数据，以$k/(k+1)$的概率保留这个数据，并且从之前的$k$个数据中随机挑选一个丢弃。我们继续读取下一个数据，我们以$k/(k+2)$的概率保留这个数据，并且从之前保留的$k$个数据中随机挑选一个丢弃。归纳起来，对于第$j$个数据，我们以$k/j$的概率保留这个数据，并且从之前保留的$k$个数据中随机挑选一个丢弃。以此规则，反复进行。</p>
+<p>相比于一般解决方法，蓄水池的优势显而易见。在时间上，不用不停地遍历整个数据流来随机抽取，更重要的时候，不用保存历史数据，只需要保存$k$个已经被选择的数据。省时间、省空间。蓄水池采样法也是一种为online算法。 </p>
+<p>等概率性的证明<br>用数学归纳法证明，每个样本被选中的概率的都是相等的。<br>初始情况是，当前只有$k$个样本，此时每个样本都被选中进入池子，也就是$k/k=1$的概率。<br>如果我们一共有$n$个数据点，假设每个数据点被选进入池子的概率相等，都是$k/n$。<br>根据数学归纳法的思想，下面我们只要证明如果一共有$n+1$个数据点，每个数据进入池子中的概率都是$k/(n+1)$。<br>对于第$n+1$个样本$X_{n+1}$，它进入池子的概率显然是$k/(n+1)$。<br>对于第$j$个样本$X_j，j≤n$，它在前一轮中已经在池子里的概率为$k/n$。<br>下面我们分两种情况讨论：第一种情况，$X_{n+1}$没被选中，所以$X_j$依然留在池子中。这种情况的概率为<br>$$P_1=1-\frac{k}{n+1}=\frac{n+1-k}{n+1}$$<br>第二种情况，$X_{n+1}$被选中但是$X_j$没有被替换。这种情况发生的概率为<br>$$P_2=\frac{k}{n+1}\frac{k-1}{k}=\frac{k-1}{n+1}$$<br>两者相加<br>$$P_1+P_2=\frac{n}{n+1}$$<br>所以$X_j$此时在池子中的概率为<br>$$\frac{k}{n}(P_1+P_2)=\frac{k}{n}\frac{n}{n+1}=\frac{k}{n+1}$$<br>证毕。 </p>
+<h3 id="4-GBDT-LR分类器的原理是什么？GBDT-LR中，如果GBDT有1000颗树，每个树有100个叶子节点，那么输入到LR的特征会是一个高维稀疏的向量。它的维度是多少？那么应该如何处理这个高维度问题？"><a href="#4-GBDT-LR分类器的原理是什么？GBDT-LR中，如果GBDT有1000颗树，每个树有100个叶子节点，那么输入到LR的特征会是一个高维稀疏的向量。它的维度是多少？那么应该如何处理这个高维度问题？" class="headerlink" title="4. GBDT+LR分类器的原理是什么？GBDT+LR中，如果GBDT有1000颗树，每个树有100个叶子节点，那么输入到LR的特征会是一个高维稀疏的向量。它的维度是多少？那么应该如何处理这个高维度问题？"></a>4. GBDT+LR分类器的原理是什么？GBDT+LR中，如果GBDT有1000颗树，每个树有100个叶子节点，那么输入到LR的特征会是一个高维稀疏的向量。它的维度是多少？那么应该如何处理这个高维度问题？</h3><p>简单来说是将GBDT中每棵树的叶节点作为一个新的特征：每个叶子都对应着一个01变量，如果某样本落在该叶节点上就是1，否则为0。<br>如果有$T$棵树，叶子的总数为$M$，那么每个样本就被转换成一个长度为$M$的01向量，而每个向量都只含有$T$个1。<br>接下来就将这01向量作为逻辑回归模型(LR)的输入。 </p>
+<p>向量的维度是$1000×100=10^5$。<br>考虑到维度很高，所以我们可以对数据进行降维，比如使用PCA，tSNE或者Autoencoder，然后对降维后的数据进行逻辑回归。</p>
+<h3 id="5-假设你现在有LinkedIn上所有用户的各项数据，你如何预测某个用户这三个月内是否跳槽？你准备使用哪些数据？使用什么模型？"><a href="#5-假设你现在有LinkedIn上所有用户的各项数据，你如何预测某个用户这三个月内是否跳槽？你准备使用哪些数据？使用什么模型？" class="headerlink" title="5. 假设你现在有LinkedIn上所有用户的各项数据，你如何预测某个用户这三个月内是否跳槽？你准备使用哪些数据？使用什么模型？"></a>5. 假设你现在有LinkedIn上所有用户的各项数据，你如何预测某个用户这三个月内是否跳槽？你准备使用哪些数据？使用什么模型？</h3><p>首先，很明显这是一个二元分类的问题。1代表三个月内跳槽；0代表三个月内并没有跳槽。因为涉及到跳槽，所以我们也只需要针对目前有工作的用户，排除在读学生和应届生。</p>
+<p>既然是监督式学习，就要考虑如何构建training data。<br>一种思路是: 在过去的历史数据中，每三个月的第一天，对用户信息进行快照(snapshot)，并跟踪三个月观测他们是否跳槽。比如说，我们回看过去3年的数据</p>
+<ul>
+<li>2015年6月1日，对所有用户进行快照取得训练数据，跟踪用户在2015年6月1日到2015年8月31日内是否跳槽。</li>
+<li>2015年9月1日，对所有用户进行快照取得训练数据，跟踪用户在2015年9月1日到2015年11月30日内是否跳槽。</li>
+<li>2015年12月1日，对所有用户进行快照取得训练数据，跟踪用户在2015年12月1日到2016年2月29日内是否跳槽。</li>
+<li>…</li>
+<li>2018年6月1日，对所有用户进行快照取得训练数据，跟踪用户在2018年6月1日到2018年8月30日内是否跳槽。</li>
+</ul>
+<p>下面就要具体去考虑需要收集的信息，为训练做准备。<br>要收集的信息可以包括用户基本资料、在snapshot的时刻用户历史数据以及行为以及整个市场的供需状况。</p>
+<ol>
+<li><p>用户资料<br>特征包括：毕业年份、毕业学校、专业、之前的公司、当前的公司、目前的职位、职位的级别、在当前职位的时间长度、在当前公司的时间长度，等等。</p>
+</li>
+<li><p>Snapshot时的数据以及用户行为。<br>一个是snapshot的年、月、日信息（比如年初跳槽就比较高发）。行为包括：截止到snapshot的时间用户在Linkedin有多少人脉联系人(connections)，最近一周、一个月、两个月、三个月、半年新增的connections个数，新增connections中HR的个数，最近一周、一个月、两个月、三个月、半年访问Linkedin的次数，最近一次更新简历至今的天数、最近一次增加技能至今的天数，最近一周、一个月、两个月、三个月、半年在Linkedin搜索职位的次数，最近一周、一个月、两个月、三个月、半年在Linkedin与HR发消息的次数等等。</p>
+</li>
+<li><p>整个市场的供需状况。<br>对每个行业/领域/地区，过去每月在Linkedin新发布的职位的个数。</p>
+</li>
+</ol>
+<p>下一个步骤就是建立预测模型。<br>常见二元分类模型包括逻辑回归、随机森林、gbdt/xgboost等。上述提到了很多相关性较强的变量，所以可以使用树类模型或者带正则项的逻辑回归。需要注意的是，这个二元分类显然是非平衡的，1的比例非常少；样本可以通过欠采样或者SMOTE进行预处理，此外也要考虑到模型评价标准的选择。如果最终预测结果为概率，可以使用ROC AUC；如果最终输出结果是0、1标签，可以选择是kappa值。 </p>
+<h3 id="6-检测Twitter上的假账号"><a href="#6-检测Twitter上的假账号" class="headerlink" title="6. 检测Twitter上的假账号"></a>6. 检测Twitter上的假账号</h3><p><em>问题: Twitter上有很多假账号，他们影响到很多用户的正常使用。</em><br><em>如果你有Twitter上所有用户的信息，以及一些被标记出来的假账号，你怎么利用这些信息来检测出Twitter上的假账号？</em><br><em>如果你有Twitter上所有用户的信息，但是这些用户都没有被标记，那么你怎么利用这些信息来检测出Twitter上的假账号？</em></p>
+<p>这个问题是典型的异常检测(anomaly detection)。<br>根据题意，第一个问题是有监督的异常检测，而第二个问题是无监督的异常检测。</p>
+<p>下一步就是根据Twitter的场景来选择特征构造数据集。</p>
+<ol>
+<li><p>用户头像。<br>特征包括：用户是否上传头像、头像的分辨率、近一年更换头像的次数。假账号往往没有头像、或者使用系统默认头像、或者低分辨率头像，而且一旦设定就很少再换了。</p>
+</li>
+<li><p>用户资料。<br>特征包括：用户是否有自我介绍、用户是否选择了性别、是否选择了地区、是否填写了其他信息、是否绑定了其他社交账号、是否设置个性化的页面短链接。</p>
+</li>
+<li><p>互粉情况。<br>特征包括：用户follow了多少人、被多少人follow、两者的比例、有多少人与该用户是互粉的。通常假账号会follow很多人，但是却没有很多粉丝。</p>
+</li>
+<li><p>发推文情况。<br>特征包括：发推文的个数、、发推文的时间段、推文中是否含有地理定位、推文中是否带有超链接。假账号发的推文常带有超链接、却很少带有地理定位，而且发推文的时间段可能是全天时段的。</p>
+</li>
+<li><p>与他人互动情况。<br>特征包括：用户的推文是否被转载、该用户是否转发过他人的推文、与他人是否有评论、私信的互动。</p>
+</li>
+</ol>
+<p><strong>监督式异常检测</strong><br>下一步就是建立二元分类模型，值得注意的是这里非平衡问题，所以要进行适当的预处理、选择适当的模型以及模型评判标准。<br>在回答建立模型这一部分，请选择自己擅长的模型，因为面试官会根据求职者选择的模型深挖模型细节。 </p>
+<p><strong>非监督式异常检测</strong><br>非监督式异常检测又分为基于模型和基于统计量的。<br>常见模型包括one-class SVM, Isolation Forests，Autoencoder（Replicator Neural Networks, 教程以及代码实战），DBSCAN，GMM，等。同样，在回答建立模型这一部分，请选择自己擅长的模型，因为面试官会根据求职者选择的模型深挖模型细节。<br>基于统计量的方法通常基于假设检验，其思想是原假设是该用户服从整体用户的分布，对立假设是该用户不来自整体用户的分布，然后对假设检验的p-value设定阈值。 </p>
+<h3 id="7-预测沃尔玛门店的某种商品销量"><a href="#7-预测沃尔玛门店的某种商品销量" class="headerlink" title="7. 预测沃尔玛门店的某种商品销量"></a>7. 预测沃尔玛门店的某种商品销量</h3><p><em>准确预测产品的效率有助于仓储、物流的调控。如果你有过去该商品在各个门店每周的销量，你如何建立模型预测未来的销量？<br>除了销量信息，你还想获取哪些有助于模型的信息？<br>如何评判模型的准确度？</em></p>
+<p>第一个问题是一个一元变量的时间序列问题。这类问题的经典解法是AR，ARMA以及ARIMA和SARIMA模型。<br>此外也可以考虑非线性模型，比如Random Forest或者Boosting，但是在使用这类模型时首先需要de-trend，就是先用线性模型拟合，让整个时间序列平稳，然后再用随机森林或者boosting。此外还有注意合成一些时间变量，比如这周是否是节日等等。<br>因为需要预测多个门店的销量，所以可以选择每个门店一个模型也可以让门店成为模型中的一个特征。此外，也可以尝试RNN等神经网络模型。 </p>
+<p>这个部分是非常主观的，答案可以各种各样，可供参考的其他有助于模型提高精度的信息包括：</p>
+<pre><code>1.  促销打折信息。需要过去该商品的促销打折信息，以及未来的促销打折计划。
+2.  其他同类产品过去的销量。
+3.  各个门店所在地的消费价格指数CPI。
+4.  各个门店所在地的天气状况。
+5.  各个门店所在地是否有大型活动、突发事故等。
+</code></pre><p>时间序列无法进行交叉验证，否则会发生data leakage。可行的方法是，用前m个月的数据进行训练，用后n个月进行验证。因为这是一个回归问题，所以评价标准可以使用RMSE，MAE，MAPE等。 </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面试/" rel="tag"> <i class="fa fa-tag"></i> 面试</a>
+          
+            <a href="/tags/ML/" rel="tag"> <i class="fa fa-tag"></i> ML</a>
+          
+            <a href="/tags/概率论/" rel="tag"> <i class="fa fa-tag"></i> 概率论</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/bayes_tfidf/" rel="next" title="基于朴素贝叶斯的短文本分类">
+                <i class="fa fa-chevron-left"></i> 基于朴素贝叶斯的短文本分类
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/ubuntu/" rel="prev" title="Ubuntu装机记录">
+                Ubuntu装机记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDA1NS8xNjU4Mg=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/photo.jpg" alt="Shi Lou">
+            
+              <p class="site-author-name" itemprop="name">Shi Lou</p>
+              <p class="site-description motion-element" itemprop="description">无知地索求，羞耻于求救。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ybshen007" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:ybshen33@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习理论"><span class="nav-number">1.</span> <span class="nav-text">机器学习理论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-XGBoost和GradientBoost的区别是什么？XGBoost的基分类器只能是树吗？如果基分类器是线性分类器会是怎么样？"><span class="nav-number">1.1.</span> <span class="nav-text">1. XGBoost和GradientBoost的区别是什么？XGBoost的基分类器只能是树吗？如果基分类器是线性分类器会是怎么样？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习问答"><span class="nav-number">2.</span> <span class="nav-text">机器学习问答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-AdaBoost和GBDT的主要相同点和区别是什么？"><span class="nav-number">2.1.</span> <span class="nav-text">1. AdaBoost和GBDT的主要相同点和区别是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-为什么我们不能用最小二乘法来解决二元分类问题？换句话说，我们为什么不能用平方误差-MSE-作为逻辑回归的损失函数？"><span class="nav-number">2.2.</span> <span class="nav-text">2. 为什么我们不能用最小二乘法来解决二元分类问题？换句话说，我们为什么不能用平方误差(MSE)作为逻辑回归的损失函数？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-如何从流数据中均匀取样？具体来说，数据样本是一个个进入系统，你并不知道数据流何时结束或者数据总个数，在这种情况下，你如何一个流动的数据里随机均匀地选出k个样本？如何证明你的方法是随机均匀的？"><span class="nav-number">2.3.</span> <span class="nav-text">3. 如何从流数据中均匀取样？具体来说，数据样本是一个个进入系统，你并不知道数据流何时结束或者数据总个数，在这种情况下，你如何一个流动的数据里随机均匀地选出k个样本？如何证明你的方法是随机均匀的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-GBDT-LR分类器的原理是什么？GBDT-LR中，如果GBDT有1000颗树，每个树有100个叶子节点，那么输入到LR的特征会是一个高维稀疏的向量。它的维度是多少？那么应该如何处理这个高维度问题？"><span class="nav-number">2.4.</span> <span class="nav-text">4. GBDT+LR分类器的原理是什么？GBDT+LR中，如果GBDT有1000颗树，每个树有100个叶子节点，那么输入到LR的特征会是一个高维稀疏的向量。它的维度是多少？那么应该如何处理这个高维度问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-假设你现在有LinkedIn上所有用户的各项数据，你如何预测某个用户这三个月内是否跳槽？你准备使用哪些数据？使用什么模型？"><span class="nav-number">2.5.</span> <span class="nav-text">5. 假设你现在有LinkedIn上所有用户的各项数据，你如何预测某个用户这三个月内是否跳槽？你准备使用哪些数据？使用什么模型？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-检测Twitter上的假账号"><span class="nav-number">2.6.</span> <span class="nav-text">6. 检测Twitter上的假账号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-预测沃尔玛门店的某种商品销量"><span class="nav-number">2.7.</span> <span class="nav-text">7. 预测沃尔玛门店的某种商品销量</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shi Lou</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">14.3k</span>
+  
+</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
